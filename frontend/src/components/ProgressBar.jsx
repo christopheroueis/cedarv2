@@ -2,88 +2,76 @@ import React from 'react'
 import { MapPin, Mic, BarChart3, CheckCircle2 } from 'lucide-react'
 
 const steps = [
-    { id: 'location', label: 'Location', icon: MapPin },
-    { id: 'data-entry', label: 'Data Entry', icon: Mic },
-    { id: 'assessment', label: 'Assessment', icon: BarChart3 },
-    { id: 'results', label: 'Results', icon: CheckCircle2 }
+    { id: 'mode-select', label: 'Mode', icon: MapPin },
+    { id: 'location-detect', label: 'Location', icon: MapPin },
+    { id: 'manual-form', label: 'Data', icon: Mic }, // Or recording
+    { id: 'review', label: 'Review', icon: CheckCircle2 }
 ]
 
+// Mapping for dynamic steps based on flow could be added here, but keeping it simple for now based on the provided file's structure.
+// The original file had: Location, Data Entry, Assessment, Results.
+// let's stick to a generic 4-step flow visually.
+
 export default function ProgressBar({ currentStep }) {
-    const currentIndex = steps.findIndex(s => s.id === currentStep)
+    // We need to map the currentStep string to an index.
+    // The currentStep props passed from NewAssessment are: 'mode-select', 'location-detect', 'manual-form'/'recording', 'review', 'loading'
+
+    let activeIndex = 0;
+    if (currentStep === 'mode-select') activeIndex = 0;
+    else if (currentStep === 'location-detect') activeIndex = 1;
+    else if (currentStep === 'manual-form' || currentStep === 'recording') activeIndex = 2;
+    else if (currentStep === 'review') activeIndex = 3;
+    else if (currentStep === 'loading' || currentStep === 'results') activeIndex = 4;
+
+    const displaySteps = [
+        { label: 'Start', icon: MapPin },
+        { label: 'Location', icon: MapPin },
+        { label: 'Data', icon: Mic },
+        { label: 'Review', icon: CheckCircle2 }
+    ]
 
     return (
-        <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-slate-900/95 via-indigo-900/95 to-purple-900/95 backdrop-blur-lg border-b border-white/10">
-            <div className="max-w-4xl mx-auto px-4 py-4">
-                <div className="flex items-center justify-between">
-                    {steps.map((step, index) => {
+        <div className="sticky top-16 z-40 bg-white border-b" style={{ borderColor: '#E5E5E5' }}>
+            <div className="max-w-3xl mx-auto px-4 py-4">
+                <div className="flex items-center justify-between relative">
+                    {/* Progress Bar Background Line */}
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-gray-200 -z-10" />
+
+                    {/* Progress Bar Fill Line */}
+                    <div
+                        className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-green-600 -z-10 transition-all duration-500 ease-out"
+                        style={{ width: `${(activeIndex / (displaySteps.length - 1)) * 100}%`, backgroundColor: '#2D5F3F' }}
+                    />
+
+                    {displaySteps.map((step, index) => {
                         const Icon = step.icon
-                        const isActive = index === currentIndex
-                        const isCompleted = index < currentIndex
-                        const isFuture = index > currentIndex
+                        const isActive = index === activeIndex
+                        const isCompleted = index < activeIndex
 
                         return (
-                            <React.Fragment key={step.id}>
-                                {/* Step */}
-                                <div className="flex flex-col items-center gap-2 min-w-[80px]">
-                                    {/* Icon */}
-                                    <div
-                                        className={`
-                                            relative flex items-center justify-center w-12 h-12 rounded-full
-                                            transition-all duration-300
-                                            ${isActive && 'ring-4 ring-violet-500/50 shadow-lg shadow-violet-500/50'}
-                                            ${isCompleted && 'bg-gradient-to-br from-green-500 to-emerald-600'}
-                                            ${isActive && 'bg-gradient-to-br from-violet-500 to-purple-600'}
-                                            ${isFuture && 'bg-slate-700/50 border border-slate-600'}
-                                        `}
-                                    >
-                                        {isCompleted ? (
-                                            <CheckCircle2 className="w-6 h-6 text-white" />
-                                        ) : (
-                                            <Icon
-                                                className={`
-                                                    w-6 h-6 transition-all duration-300
-                                                    ${isActive && 'text-white animate-pulse'}
-                                                    ${isFuture && 'text-slate-400'}
-                                                `}
-                                            />
-                                        )}
-
-                                        {/* Active glow effect */}
-                                        {isActive && (
-                                            <div className="absolute inset-0 rounded-full bg-violet-500 animate-ping opacity-75" />
-                                        )}
-                                    </div>
-
-                                    {/* Label */}
-                                    <span
-                                        className={`
-                                            text-xs font-medium transition-colors duration-300
-                                            ${isActive && 'text-white'}
-                                            ${isCompleted && 'text-green-400'}
-                                            ${isFuture && 'text-slate-500'}
-                                        `}
-                                    >
-                                        {step.label}
-                                    </span>
+                            <div key={index} className="flex flex-col items-center gap-2 bg-white px-2">
+                                <div
+                                    className={`
+                                        flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300
+                                        ${isActive ? 'scale-110' : ''}
+                                    `}
+                                    style={{
+                                        backgroundColor: isCompleted || isActive ? '#2D5F3F' : '#FFFFFF',
+                                        borderColor: isCompleted || isActive ? '#2D5F3F' : '#E5E5E5',
+                                        color: isCompleted || isActive ? '#FFFFFF' : '#999999'
+                                    }}
+                                >
+                                    {isCompleted ? (
+                                        <CheckCircle2 className="w-5 h-5" />
+                                    ) : (
+                                        <Icon className="w-4 h-4" />
+                                    )}
                                 </div>
-
-                                {/* Connector Line */}
-                                {index < steps.length - 1 && (
-                                    <div className="flex-1 h-0.5 mx-2 relative">
-                                        <div className="absolute inset-0 bg-slate-700/50" />
-                                        <div
-                                            className={`
-                                                absolute inset-0 transition-all duration-500
-                                                ${isCompleted && 'bg-gradient-to-r from-green-500 to-emerald-600'}
-                                                ${isActive && index < currentIndex && 'bg-gradient-to-r from-green-500 to-emerald-600'}
-                                            `}
-                                            style={{
-                                                width: isCompleted ? '100%' : '0%'
-                                            }}
-                                        />
-                                    </div>
-                                )}
-                            </React.Fragment>
+                                <span className="text-xs font-medium"
+                                    style={{ color: isActive || isCompleted ? '#2D5F3F' : '#999999' }}>
+                                    {step.label}
+                                </span>
+                            </div>
                         )
                     })}
                 </div>

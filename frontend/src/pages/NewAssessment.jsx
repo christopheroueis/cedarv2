@@ -6,11 +6,12 @@ import {
     MapPin, DollarSign, Briefcase, Wheat, User, FileCheck,
     ChevronDown, Navigation, Menu, LogOut, History as HistoryIcon,
     LayoutDashboard, Loader2, AlertCircle, Mic, MicOff, Square,
-    Sparkles, PenLine, Check, X, Edit2, ChevronLeft
+    Sparkles, PenLine, Check, X, Edit2, ChevronLeft, BarChart3
 } from 'lucide-react'
 import ProgressBar from '../components/ProgressBar'
 import LocationDetection from '../components/LocationDetection'
 import LoadingAnimation from '../components/LoadingAnimation'
+import LogoAnimation from '../components/LogoAnimation'
 import { formatLocationForBackend } from '../services/locationService'
 
 // API base URL
@@ -333,50 +334,54 @@ export default function NewAssessment() {
     // ============ RENDER SECTIONS ============
 
     const renderHeader = () => (
-        <header className="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-lg border-b border-slate-700/50">
+        <header className="sticky top-0 z-50 bg-white border-b" style={{ borderColor: '#E5E5E5' }}>
             <div className="flex items-center justify-between px-4 py-3">
                 <div className="flex items-center gap-3">
                     {step !== 'mode-select' && (
                         <button
                             onClick={handleBack}
-                            className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-800 text-slate-300 mr-1"
+                            className="w-10 h-10 flex items-center justify-center rounded-lg mr-1 transition-colors"
+                            style={{ backgroundColor: '#F5F3ED', color: '#2C2C2C' }}
                         >
                             <ChevronLeft className="w-5 h-5" />
                         </button>
                     )}
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center">
-                        <FileCheck className="w-5 h-5 text-white" />
-                    </div>
+                    <LogoAnimation size="small" animation="pulse" />
                     <div>
-                        <h1 className="text-lg font-semibold text-white">
+                        <h1 className="text-lg font-semibold" style={{ color: '#2C2C2C' }}>
                             {step === 'mode-select' && 'New Assessment'}
                             {step === 'manual-form' && 'Manual Entry'}
                             {step === 'recording' && 'AI Assistant'}
                             {step === 'review' && 'Review Data'}
                         </h1>
-                        <p className="text-xs text-slate-400">{mfi?.name}</p>
+                        <p className="text-xs" style={{ color: '#666666' }}>{mfi?.name}</p>
                     </div>
                 </div>
 
                 <button
                     onClick={() => setMenuOpen(!menuOpen)}
-                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-800 text-slate-300"
+                    className="w-10 h-10 flex items-center justify-center rounded-lg transition-colors"
+                    style={{ backgroundColor: '#F5F3ED', color: '#2C2C2C' }}
                 >
                     <Menu className="w-5 h-5" />
                 </button>
             </div>
 
             {menuOpen && (
-                <div className="absolute right-4 top-16 w-56 glass-card p-2 shadow-xl fade-in z-50">
-                    <div className="px-3 py-2 border-b border-slate-700 mb-2">
-                        <p className="text-sm font-medium text-white">{user?.name}</p>
-                        <p className="text-xs text-slate-400">{user?.role === 'manager' ? 'Manager' : 'Loan Officer'}</p>
+                <div className="absolute right-4 top-16 w-56 bg-white rounded-xl shadow-xl p-2 z-50"
+                    style={{ border: '1px solid #E5E5E5' }}>
+                    <div className="px-3 py-2 border-b mb-2" style={{ borderColor: '#E5E5E5' }}>
+                        <p className="text-sm font-medium" style={{ color: '#2C2C2C' }}>{user?.name}</p>
+                        <p className="text-xs" style={{ color: '#666666' }}>
+                            {user?.role === 'manager' ? 'Manager' : 'Loan Officer'}
+                        </p>
                     </div>
 
                     {user?.role === 'manager' && (
                         <Link
                             to="/dashboard"
-                            className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700/50 text-slate-300 text-sm"
+                            className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-100 text-sm transition-colors"
+                            style={{ color: '#2C2C2C' }}
                             onClick={() => setMenuOpen(false)}
                         >
                             <LayoutDashboard className="w-4 h-4" />
@@ -386,7 +391,8 @@ export default function NewAssessment() {
 
                     <Link
                         to="/history"
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700/50 text-slate-300 text-sm"
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-100 text-sm transition-colors"
+                        style={{ color: '#2C2C2C' }}
                         onClick={() => setMenuOpen(false)}
                     >
                         <HistoryIcon className="w-4 h-4" />
@@ -395,7 +401,8 @@ export default function NewAssessment() {
 
                     <button
                         onClick={() => { logout(); navigate('/login'); }}
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-500/20 text-red-400 text-sm w-full"
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-50 text-sm w-full transition-colors"
+                        style={{ color: '#E53935' }}
                     >
                         <LogOut className="w-4 h-4" />
                         Sign Out
@@ -408,31 +415,36 @@ export default function NewAssessment() {
     const renderModeSelection = () => (
         <div className="px-4 py-8 max-w-lg mx-auto space-y-6">
             <div className="text-center mb-8">
-                <h2 className="text-2xl font-bold text-white mb-2">How would you like to enter data?</h2>
-                <p className="text-slate-400">Choose your preferred method for this assessment</p>
+                <h2 className="text-2xl font-bold mb-2" style={{ color: '#2C2C2C' }}>How would you like to enter data?</h2>
+                <p style={{ color: '#666666' }}>Choose your preferred method for this assessment</p>
             </div>
 
             {/* AI Assistant Option */}
             <button
                 onClick={() => handleModeSelect('ai')}
-                className="w-full p-6 rounded-2xl bg-gradient-to-br from-violet-600/20 to-purple-600/20 
-                         border-2 border-violet-500/50 hover:border-violet-400 
-                         transition-all duration-300 text-left group hover:scale-[1.02]"
+                className="w-full p-6 rounded-2xl border-2 transition-all duration-300 text-left group hover:scale-[1.02] hover:shadow-lg"
+                style={{
+                    backgroundColor: '#FFFFFF',
+                    borderColor: '#2D5F3F'
+                }}
             >
                 <div className="flex items-start gap-4">
-                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 
-                                  flex items-center justify-center flex-shrink-0">
-                        <Sparkles className="w-7 h-7 text-white" />
+                    <div className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: 'rgba(45, 95, 63, 0.1)' }}>
+                        <Sparkles className="w-7 h-7" style={{ color: '#2D5F3F' }} />
                     </div>
                     <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-white mb-1 flex items-center gap-2">
+                        <h3 className="text-lg font-semibold mb-1 flex items-center gap-2" style={{ color: '#2C2C2C' }}>
                             AI Assistant
-                            <span className="text-xs px-2 py-0.5 rounded-full bg-violet-500/30 text-violet-300">Recommended</span>
+                            <span className="text-xs px-2 py-0.5 rounded-full"
+                                style={{ backgroundColor: 'rgba(45, 95, 63, 0.1)', color: '#2D5F3F' }}>
+                                Recommended
+                            </span>
                         </h3>
-                        <p className="text-sm text-slate-400 mb-3">
+                        <p className="text-sm mb-3" style={{ color: '#666666' }}>
                             Record your conversation with the client. AI will transcribe and extract data automatically.
                         </p>
-                        <div className="flex items-center gap-4 text-xs text-slate-500">
+                        <div className="flex items-center gap-4 text-xs" style={{ color: '#666666' }}>
                             <span className="flex items-center gap-1">
                                 <Mic className="w-3 h-3" /> Voice Recording
                             </span>
@@ -447,21 +459,23 @@ export default function NewAssessment() {
             {/* Manual Entry Option */}
             <button
                 onClick={() => handleModeSelect('manual')}
-                className="w-full p-6 rounded-2xl bg-slate-800/50 
-                         border-2 border-slate-700 hover:border-slate-500 
-                         transition-all duration-300 text-left group hover:scale-[1.02]"
+                className="w-full p-6 rounded-2xl border-2 transition-all duration-300 text-left group hover:scale-[1.02] hover:shadow-lg"
+                style={{
+                    backgroundColor: '#FFFFFF',
+                    borderColor: '#E5E5E5'
+                }}
             >
                 <div className="flex items-start gap-4">
-                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-slate-600 to-slate-700 
-                                  flex items-center justify-center flex-shrink-0">
-                        <PenLine className="w-7 h-7 text-white" />
+                    <div className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: '#F5F3ED' }}>
+                        <PenLine className="w-7 h-7" style={{ color: '#2C2C2C' }} />
                     </div>
                     <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-white mb-1">Manual Entry</h3>
-                        <p className="text-sm text-slate-400 mb-3">
+                        <h3 className="text-lg font-semibold mb-1" style={{ color: '#2C2C2C' }}>Manual Entry</h3>
+                        <p className="text-sm mb-3" style={{ color: '#666666' }}>
                             Fill out the form manually with client information.
                         </p>
-                        <div className="flex items-center gap-4 text-xs text-slate-500">
+                        <div className="flex items-center gap-4 text-xs" style={{ color: '#666666' }}>
                             <span className="flex items-center gap-1">
                                 <Edit2 className="w-3 h-3" /> Type Data
                             </span>
@@ -478,25 +492,29 @@ export default function NewAssessment() {
     const renderRecording = () => (
         <div className="px-4 py-6 max-w-lg mx-auto space-y-6">
             {/* Recording Controls */}
-            <div className="card text-center py-8">
+            <div className="p-8 bg-white rounded-2xl border text-center transition-all duration-300"
+                style={{ borderColor: '#E5E5E5' }}>
                 <div className={`w-32 h-32 mx-auto rounded-full flex items-center justify-center mb-6 transition-all duration-300
                     ${isRecording
-                        ? 'bg-gradient-to-br from-red-500 to-rose-600 animate-pulse shadow-lg shadow-red-500/50'
-                        : 'bg-gradient-to-br from-violet-500 to-purple-600'}`}
+                        ? 'animate-pulse shadow-lg'
+                        : ''}`}
+                    style={{
+                        backgroundColor: isRecording ? '#E53935' : '#F5F3ED',
+                        boxShadow: isRecording ? '0 0 20px rgba(229, 57, 53, 0.4)' : 'none'
+                    }}
                 >
                     {isRecording ? (
                         <Mic className="w-16 h-16 text-white" />
                     ) : (
-                        <MicOff className="w-16 h-16 text-white/70" />
+                        <MicOff className="w-16 h-16" style={{ color: '#999999' }} />
                     )}
                 </div>
 
                 {!isRecording && !extracting && (
                     <button
                         onClick={startRecording}
-                        className="px-8 py-3 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 
-                                 text-white font-semibold text-lg hover:from-violet-400 hover:to-purple-500
-                                 transition-all shadow-lg shadow-violet-500/30"
+                        className="px-8 py-3 rounded-xl text-white font-semibold text-lg transition-all shadow-lg hover:shadow-xl hover:scale-105"
+                        style={{ backgroundColor: '#2D5F3F' }}
                     >
                         Start Recording
                     </button>
@@ -505,9 +523,8 @@ export default function NewAssessment() {
                 {isRecording && (
                     <button
                         onClick={stopRecording}
-                        className="px-8 py-3 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 
-                                 text-white font-semibold text-lg hover:from-red-400 hover:to-rose-500
-                                 transition-all shadow-lg shadow-red-500/30 flex items-center gap-2 mx-auto"
+                        className="px-8 py-3 rounded-xl text-white font-semibold text-lg transition-all shadow-lg hover:shadow-xl hover:scale-105 flex items-center gap-2 mx-auto"
+                        style={{ backgroundColor: '#E53935' }}
                     >
                         <Square className="w-5 h-5" />
                         Stop & Extract
@@ -515,26 +532,26 @@ export default function NewAssessment() {
                 )}
 
                 {extracting && (
-                    <div className="flex items-center justify-center gap-3 text-violet-400">
+                    <div className="flex items-center justify-center gap-3" style={{ color: '#2D5F3F' }}>
                         <Loader2 className="w-6 h-6 animate-spin" />
                         <span className="font-medium">AI is extracting data...</span>
                     </div>
                 )}
 
                 {isRecording && (
-                    <p className="text-sm text-slate-400 mt-4">
+                    <p className="text-sm mt-4" style={{ color: '#666666' }}>
                         Recording... Speak naturally with your client
                     </p>
                 )}
             </div>
 
             {/* Transcript Area - Editable */}
-            <div className="card">
+            <div className="p-6 bg-white rounded-2xl border" style={{ borderColor: '#E5E5E5' }}>
                 <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-semibold text-teal-400 uppercase tracking-wider">
+                    <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: '#2C2C2C' }}>
                         Transcript
                     </h3>
-                    <span className="text-xs text-slate-500">
+                    <span className="text-xs" style={{ color: '#666666' }}>
                         {transcript.length > 0 ? `${transcript.split(' ').length} words` : 'Type or speak'}
                     </span>
                 </div>
@@ -542,12 +559,16 @@ export default function NewAssessment() {
                     value={transcript}
                     onChange={(e) => setTranscript(e.target.value)}
                     placeholder="Speech will appear here... OR type/paste your conversation transcript manually"
-                    className="w-full min-h-[180px] p-4 rounded-xl bg-slate-800/50 border border-slate-700 
-                             text-slate-300 placeholder-slate-500 resize-none focus:border-violet-500 
-                             focus:ring-1 focus:ring-violet-500 transition-all"
+                    className="w-full min-h-[180px] p-4 rounded-xl border resize-none focus:ring-1 transition-all"
+                    style={{
+                        backgroundColor: '#FAFAFA',
+                        borderColor: '#E5E5E5',
+                        color: '#2C2C2C',
+                        '--tw-ring-color': '#2D5F3F'
+                    }}
                 />
                 {interimTranscript && (
-                    <p className="text-sm text-slate-500 mt-2 italic">{interimTranscript}</p>
+                    <p className="text-sm mt-2 italic" style={{ color: '#666666' }}>{interimTranscript}</p>
                 )}
             </div>
 
@@ -555,10 +576,8 @@ export default function NewAssessment() {
             {!isRecording && !extracting && transcript.trim().length > 0 && (
                 <button
                     onClick={extractDataFromTranscript}
-                    className="w-full py-4 bg-gradient-to-r from-violet-500 to-purple-600 
-                             hover:from-violet-400 hover:to-purple-500
-                             text-white font-bold text-lg rounded-2xl shadow-lg shadow-violet-500/30
-                             transition-all duration-200 flex items-center justify-center gap-2"
+                    className="w-full py-4 text-white font-bold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2"
+                    style={{ backgroundColor: '#2D5F3F' }}
                 >
                     <Sparkles className="w-6 h-6" />
                     Extract Data with AI
@@ -567,23 +586,25 @@ export default function NewAssessment() {
 
             {/* Error Message */}
             {extractionError && (
-                <div className="p-4 rounded-xl bg-red-500/20 border border-red-500/30 flex items-start gap-3">
-                    <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-red-300">{extractionError}</p>
+                <div className="p-4 rounded-xl flex items-start gap-3"
+                    style={{ backgroundColor: '#FFEBEE', border: '1px solid #FFCDD2' }}>
+                    <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: '#D32F2F' }} />
+                    <p className="text-sm" style={{ color: '#B71C1C' }}>{extractionError}</p>
                 </div>
             )}
 
             {/* Speech Recognition Notice */}
             {!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window) && (
-                <div className="p-4 rounded-xl bg-amber-500/20 border border-amber-500/30">
-                    <p className="text-sm text-amber-300">
+                <div className="p-4 rounded-xl flex items-start gap-3"
+                    style={{ backgroundColor: '#FFF8E1', border: '1px solid #FFECB3' }}>
+                    <p className="text-sm" style={{ color: '#F57F17' }}>
                         ⚠️ Speech recognition not available. You can type or paste your conversation above.
                     </p>
                 </div>
             )}
 
             {/* Tip */}
-            <div className="text-center text-sm text-slate-500">
+            <div className="text-center text-sm" style={{ color: '#666666' }}>
                 <p>💡 Tip: You can type or paste the conversation directly if voice isn't working</p>
             </div>
         </div>
@@ -591,20 +612,22 @@ export default function NewAssessment() {
 
     const renderReview = () => (
         <div className="px-4 py-6 max-w-lg mx-auto">
-            <div className="mb-6 p-4 rounded-xl bg-violet-500/20 border border-violet-500/30">
-                <div className="flex items-center gap-2 mb-2">
-                    <Sparkles className="w-5 h-5 text-violet-400" />
-                    <span className="font-semibold text-violet-300">AI Extracted Data</span>
+            <div className="mb-6 p-4 rounded-xl border flex items-center gap-3"
+                style={{ backgroundColor: 'rgba(45, 95, 63, 0.05)', borderColor: 'rgba(45, 95, 63, 0.2)' }}>
+                <Sparkles className="w-5 h-5" style={{ color: '#2D5F3F' }} />
+                <div>
+                    <span className="font-semibold block" style={{ color: '#2D5F3F' }}>AI Extracted Data</span>
+                    <p className="text-sm" style={{ color: '#666666' }}>
+                        Review and edit the extracted information before proceeding
+                    </p>
                 </div>
-                <p className="text-sm text-slate-400">
-                    Review and edit the extracted information before proceeding
-                </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Location - Always required */}
-                <section className="card space-y-4">
-                    <h3 className="text-sm font-semibold text-teal-400 uppercase tracking-wider flex items-center gap-2">
+                <section className="bg-white p-6 rounded-2xl border space-y-4" style={{ borderColor: '#E5E5E5' }}>
+                    <h3 className="text-sm font-semibold uppercase tracking-wider flex items-center gap-2"
+                        style={{ color: '#2C2C2C' }}>
                         <MapPin className="w-4 h-4" />
                         Client Location
                     </h3>
@@ -613,9 +636,8 @@ export default function NewAssessment() {
                         type="button"
                         onClick={detectLocation}
                         disabled={gpsLoading}
-                        className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl 
-                                 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600
-                                 text-white font-medium transition-all"
+                        className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white font-medium transition-all"
+                        style={{ backgroundColor: '#2196F3' }}
                     >
                         {gpsLoading ? (
                             <>
@@ -631,9 +653,10 @@ export default function NewAssessment() {
                     </button>
 
                     {formData.locationName && (
-                        <div className="p-3 rounded-lg bg-teal-500/10 border border-teal-500/30">
-                            <p className="text-sm text-teal-300 font-medium">{formData.locationName}</p>
-                            <p className="text-xs text-slate-400 mt-1">
+                        <div className="p-3 rounded-lg border"
+                            style={{ backgroundColor: '#F5F3ED', borderColor: '#E5E5E5' }}>
+                            <p className="text-sm font-medium" style={{ color: '#2C2C2C' }}>{formData.locationName}</p>
+                            <p className="text-xs mt-1" style={{ color: '#666666' }}>
                                 {formData.latitude}, {formData.longitude}
                             </p>
                         </div>
@@ -641,8 +664,9 @@ export default function NewAssessment() {
                 </section>
 
                 {/* Extracted Fields with Confidence */}
-                <section className="card space-y-4">
-                    <h3 className="text-sm font-semibold text-violet-400 uppercase tracking-wider flex items-center gap-2">
+                <section className="bg-white p-6 rounded-2xl border space-y-4" style={{ borderColor: '#E5E5E5' }}>
+                    <h3 className="text-sm font-semibold uppercase tracking-wider flex items-center gap-2"
+                        style={{ color: '#2C2C2C' }}>
                         <Sparkles className="w-4 h-4" />
                         Extracted Information
                     </h3>
@@ -650,7 +674,7 @@ export default function NewAssessment() {
                     {/* Client Name */}
                     <div>
                         <div className="flex items-center justify-between mb-2">
-                            <label className="text-sm font-medium text-slate-300">Client Name</label>
+                            <label className="text-sm font-medium" style={{ color: '#2C2C2C' }}>Client Name</label>
                             {confidence.clientName && (
                                 <span className={`text-xs px-2 py-0.5 rounded-full ${getConfidenceColor('clientName')}`}>
                                     {confidence.clientName}
@@ -663,13 +687,15 @@ export default function NewAssessment() {
                             value={formData.clientName}
                             onChange={handleChange}
                             placeholder="Enter client name"
+                            className="w-full p-2 border rounded-lg"
+                            style={{ borderColor: '#E5E5E5', color: '#2C2C2C' }}
                         />
                     </div>
 
                     {/* Client Age */}
                     <div>
                         <div className="flex items-center justify-between mb-2">
-                            <label className="text-sm font-medium text-slate-300">Client Age</label>
+                            <label className="text-sm font-medium" style={{ color: '#2C2C2C' }}>Client Age</label>
                             {confidence.clientAge && (
                                 <span className={`text-xs px-2 py-0.5 rounded-full ${getConfidenceColor('clientAge')}`}>
                                     {confidence.clientAge}
@@ -685,13 +711,15 @@ export default function NewAssessment() {
                             min="18"
                             max="100"
                             required
+                            className="w-full p-2 border rounded-lg"
+                            style={{ borderColor: '#E5E5E5', color: '#2C2C2C' }}
                         />
                     </div>
 
                     {/* Loan Amount */}
                     <div>
                         <div className="flex items-center justify-between mb-2">
-                            <label className="text-sm font-medium text-slate-300">Loan Amount (USD)</label>
+                            <label className="text-sm font-medium" style={{ color: '#2C2C2C' }}>Loan Amount (USD)</label>
                             {confidence.loanAmount && (
                                 <span className={`text-xs px-2 py-0.5 rounded-full ${getConfidenceColor('loanAmount')}`}>
                                     {confidence.loanAmount}
@@ -699,7 +727,7 @@ export default function NewAssessment() {
                             )}
                         </div>
                         <div className="relative">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg">$</span>
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg" style={{ color: '#666666' }}>$</span>
                             <input
                                 type="number"
                                 name="loanAmount"
@@ -709,7 +737,8 @@ export default function NewAssessment() {
                                 min="50"
                                 max="50000"
                                 required
-                                className="pl-10"
+                                className="pl-10 w-full p-2 border rounded-lg"
+                                style={{ borderColor: '#E5E5E5', color: '#2C2C2C' }}
                             />
                         </div>
                     </div>
@@ -717,7 +746,7 @@ export default function NewAssessment() {
                     {/* Loan Purpose */}
                     <div>
                         <div className="flex items-center justify-between mb-2">
-                            <label className="text-sm font-medium text-slate-300">Loan Purpose</label>
+                            <label className="text-sm font-medium" style={{ color: '#2C2C2C' }}>Loan Purpose</label>
                             {confidence.projectType && (
                                 <span className={`text-xs px-2 py-0.5 rounded-full ${getConfidenceColor('projectType')}`}>
                                     {confidence.projectType}
@@ -730,13 +759,14 @@ export default function NewAssessment() {
                                     key={purpose.id}
                                     type="button"
                                     onClick={() => setFormData(prev => ({ ...prev, loanPurpose: purpose.id }))}
-                                    className={`p-3 rounded-xl border-2 text-left transition-all ${formData.loanPurpose === purpose.id
-                                        ? 'border-teal-500 bg-teal-500/20'
-                                        : 'border-slate-700 bg-slate-800 hover:border-slate-600'
-                                        }`}
+                                    className="p-3 rounded-xl border-2 text-left transition-all"
+                                    style={{
+                                        borderColor: formData.loanPurpose === purpose.id ? '#2D5F3F' : '#E5E5E5',
+                                        backgroundColor: formData.loanPurpose === purpose.id ? '#F5F3ED' : '#FFFFFF'
+                                    }}
                                 >
                                     <span className="text-xl">{purpose.icon}</span>
-                                    <p className="text-sm font-medium text-slate-200 mt-1">{purpose.name}</p>
+                                    <p className="text-sm font-medium mt-1" style={{ color: '#2C2C2C' }}>{purpose.name}</p>
                                 </button>
                             ))}
                         </div>
@@ -746,7 +776,7 @@ export default function NewAssessment() {
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <div className="flex items-center justify-between mb-2">
-                                <label className="text-sm font-medium text-slate-300">Existing Loans</label>
+                                <label className="text-sm font-medium" style={{ color: '#2C2C2C' }}>Existing Loans</label>
                             </div>
                             <input
                                 type="number"
@@ -756,11 +786,13 @@ export default function NewAssessment() {
                                 min="0"
                                 max="10"
                                 required
+                                className="w-full p-2 border rounded-lg"
+                                style={{ borderColor: '#E5E5E5', color: '#2C2C2C' }}
                             />
                         </div>
                         <div>
                             <div className="flex items-center justify-between mb-2">
-                                <label className="text-sm font-medium text-slate-300">Monthly Income</label>
+                                <label className="text-sm font-medium" style={{ color: '#2C2C2C' }}>Monthly Income</label>
                             </div>
                             <input
                                 type="number"
@@ -769,15 +801,17 @@ export default function NewAssessment() {
                                 onChange={handleChange}
                                 placeholder="USD"
                                 min="0"
+                                className="w-full p-2 border rounded-lg"
+                                style={{ borderColor: '#E5E5E5', color: '#2C2C2C' }}
                             />
                         </div>
                     </div>
 
                     {/* Repayment History */}
                     <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">
+                        <label className="block text-sm font-medium mb-2" style={{ color: '#2C2C2C' }}>
                             Repayment History
-                            <span className="ml-2 text-teal-400 font-semibold">{formData.repaymentHistory}%</span>
+                            <span className="ml-2 font-semibold" style={{ color: '#2D5F3F' }}>{formData.repaymentHistory}%</span>
                         </label>
                         <input
                             type="range"
@@ -786,7 +820,8 @@ export default function NewAssessment() {
                             onChange={handleChange}
                             min="0"
                             max="100"
-                            className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-teal-500"
+                            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                            style={{ backgroundColor: '#E5E5E5', accentColor: '#2D5F3F' }}
                         />
                     </div>
                 </section>
@@ -795,10 +830,8 @@ export default function NewAssessment() {
                 <button
                     type="submit"
                     disabled={loading || !formData.latitude || !formData.loanPurpose}
-                    className="w-full py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400
-                           text-white font-bold text-lg rounded-2xl shadow-lg shadow-teal-500/30
-                           transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed
-                           active:scale-[0.98] flex items-center justify-center gap-2"
+                    className="w-full py-4 text-white font-bold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    style={{ backgroundColor: '#2D5F3F' }}
                 >
                     {loading ? (
                         <>
@@ -820,8 +853,9 @@ export default function NewAssessment() {
         <main className="px-4 py-6">
             <form onSubmit={handleSubmit} className="space-y-6 max-w-lg mx-auto">
                 {/* Location Section */}
-                <section className="card space-y-4">
-                    <h3 className="text-sm font-semibold text-teal-400 uppercase tracking-wider flex items-center gap-2">
+                <section className="bg-white p-6 rounded-2xl border space-y-4" style={{ borderColor: '#E5E5E5' }}>
+                    <h3 className="text-sm font-semibold uppercase tracking-wider flex items-center gap-2"
+                        style={{ color: '#2C2C2C' }}>
                         <MapPin className="w-4 h-4" />
                         Client Location
                     </h3>
@@ -830,9 +864,8 @@ export default function NewAssessment() {
                         type="button"
                         onClick={detectLocation}
                         disabled={gpsLoading}
-                        className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl 
-                                 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600
-                                 text-white font-medium transition-all"
+                        className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white font-medium transition-all"
+                        style={{ backgroundColor: '#2196F3' }}
                     >
                         {gpsLoading ? (
                             <>
@@ -848,124 +881,42 @@ export default function NewAssessment() {
                     </button>
 
                     {formData.locationName && (
-                        <div className="p-3 rounded-lg bg-teal-500/10 border border-teal-500/30 fade-in">
-                            <p className="text-sm text-teal-300 font-medium">{formData.locationName}</p>
-                            <p className="text-xs text-slate-400 mt-1">
+                        <div className="p-3 rounded-lg border"
+                            style={{ backgroundColor: '#F5F3ED', borderColor: '#E5E5E5' }}>
+                            <p className="text-sm font-medium" style={{ color: '#2C2C2C' }}>{formData.locationName}</p>
+                            <p className="text-xs mt-1" style={{ color: '#666666' }}>
                                 {formData.latitude}, {formData.longitude}
                             </p>
                         </div>
                     )}
-
-                    <div className="grid grid-cols-2 gap-3">
-                        <div>
-                            <label className="block text-xs font-medium text-slate-400 mb-1">Latitude</label>
-                            <input
-                                type="number"
-                                name="latitude"
-                                value={formData.latitude}
-                                onChange={handleChange}
-                                step="any"
-                                placeholder="-90 to 90"
-                                required
-                                className="text-sm"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-xs font-medium text-slate-400 mb-1">Longitude</label>
-                            <input
-                                type="number"
-                                name="longitude"
-                                value={formData.longitude}
-                                onChange={handleChange}
-                                step="any"
-                                placeholder="-180 to 180"
-                                required
-                                className="text-sm"
-                            />
-                        </div>
-                    </div>
                 </section>
 
-                {/* Loan Details Section */}
-                <section className="card space-y-4">
-                    <h3 className="text-sm font-semibold text-amber-400 uppercase tracking-wider flex items-center gap-2">
-                        <DollarSign className="w-4 h-4" />
-                        Loan Details
-                    </h3>
+                {/* Client Information */}
+                <section className="bg-white p-6 rounded-2xl border space-y-4" style={{ borderColor: '#E5E5E5' }}>
+                    <div className="flex items-center gap-2 mb-2">
+                        <PenLine className="w-5 h-5" style={{ color: '#2D5F3F' }} />
+                        <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: '#2C2C2C' }}>
+                            Client Information
+                        </h3>
+                    </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Loan Amount (USD)</label>
-                        <div className="relative">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg">$</span>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium mb-1.5" style={{ color: '#2C2C2C' }}>Client Name</label>
                             <input
-                                type="number"
-                                name="loanAmount"
-                                value={formData.loanAmount}
+                                type="text"
+                                name="clientName"
+                                value={formData.clientName}
                                 onChange={handleChange}
-                                placeholder="Enter amount"
-                                min="50"
-                                max="50000"
+                                placeholder="Full Name"
                                 required
-                                className="pl-10"
+                                className="w-full p-2 border rounded-lg"
+                                style={{ borderColor: '#E5E5E5', color: '#2C2C2C' }}
                             />
                         </div>
-                    </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Loan Purpose</label>
-                        <div className="grid grid-cols-2 gap-2">
-                            {loanPurposes.map(purpose => (
-                                <button
-                                    key={purpose.id}
-                                    type="button"
-                                    onClick={() => setFormData(prev => ({ ...prev, loanPurpose: purpose.id }))}
-                                    className={`p-3 rounded-xl border-2 text-left transition-all ${formData.loanPurpose === purpose.id
-                                        ? 'border-teal-500 bg-teal-500/20'
-                                        : 'border-slate-700 bg-slate-800 hover:border-slate-600'
-                                        }`}
-                                >
-                                    <span className="text-xl">{purpose.icon}</span>
-                                    <p className="text-sm font-medium text-slate-200 mt-1">{purpose.name}</p>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {formData.loanPurpose === 'agriculture' && (
-                        <div className="fade-in">
-                            <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
-                                <Wheat className="w-4 h-4 text-amber-400" />
-                                Crop Type
-                            </label>
-                            <div className="relative">
-                                <select
-                                    name="cropType"
-                                    value={formData.cropType}
-                                    onChange={handleChange}
-                                    required
-                                    className="appearance-none"
-                                >
-                                    <option value="">Select crop type...</option>
-                                    {cropTypes.map(crop => (
-                                        <option key={crop.id} value={crop.id}>{crop.name}</option>
-                                    ))}
-                                </select>
-                                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
-                            </div>
-                        </div>
-                    )}
-                </section>
-
-                {/* Client Info Section */}
-                <section className="card space-y-4">
-                    <h3 className="text-sm font-semibold text-violet-400 uppercase tracking-wider flex items-center gap-2">
-                        <User className="w-4 h-4" />
-                        Client Information
-                    </h3>
-
-                    <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">Client Age</label>
+                            <label className="block text-sm font-medium mb-1.5" style={{ color: '#2C2C2C' }}>Age</label>
                             <input
                                 type="number"
                                 name="clientAge"
@@ -975,10 +926,75 @@ export default function NewAssessment() {
                                 min="18"
                                 max="100"
                                 required
+                                className="w-full p-2 border rounded-lg"
+                                style={{ borderColor: '#E5E5E5', color: '#2C2C2C' }}
                             />
                         </div>
+                    </div>
+                </section>
+
+                {/* Loan Details */}
+                <section className="bg-white p-6 rounded-2xl border space-y-4" style={{ borderColor: '#E5E5E5' }}>
+                    <div className="flex items-center gap-2 mb-2">
+                        <DollarSign className="w-5 h-5" style={{ color: '#2D5F3F' }} />
+                        <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: '#2C2C2C' }}>
+                            Loan Details
+                        </h3>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium mb-1.5" style={{ color: '#2C2C2C' }}>Loan Amount (USD)</label>
+                        <div className="relative">
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg" style={{ color: '#666666' }}>$</span>
+                            <input
+                                type="number"
+                                name="loanAmount"
+                                value={formData.loanAmount}
+                                onChange={handleChange}
+                                placeholder="0.00"
+                                min="50"
+                                max="50000"
+                                required
+                                className="pl-10 w-full p-2 border rounded-lg"
+                                style={{ borderColor: '#E5E5E5', color: '#2C2C2C' }}
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium mb-3" style={{ color: '#2C2C2C' }}>Loan Purpose</label>
+                        <div className="grid grid-cols-2 gap-3">
+                            {loanPurposes.map(purpose => (
+                                <button
+                                    key={purpose.id}
+                                    type="button"
+                                    onClick={() => setFormData(prev => ({ ...prev, loanPurpose: purpose.id }))}
+                                    className="p-3 rounded-xl border-2 text-left transition-all"
+                                    style={{
+                                        borderColor: formData.loanPurpose === purpose.id ? '#2D5F3F' : '#E5E5E5',
+                                        backgroundColor: formData.loanPurpose === purpose.id ? '#F5F3ED' : '#FFFFFF'
+                                    }}
+                                >
+                                    <span className="text-xl">{purpose.icon}</span>
+                                    <p className="text-sm font-medium mt-1" style={{ color: '#2C2C2C' }}>{purpose.name}</p>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Financial Health */}
+                <section className="bg-white p-6 rounded-2xl border space-y-4" style={{ borderColor: '#E5E5E5' }}>
+                    <div className="flex items-center gap-2 mb-2">
+                        <BarChart3 className="w-5 h-5" style={{ color: '#2D5F3F' }} />
+                        <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: '#2C2C2C' }}>
+                            Financial Health
+                        </h3>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">Existing Loans</label>
+                            <label className="block text-sm font-medium mb-1.5" style={{ color: '#2C2C2C' }}>Existing Loans</label>
                             <input
                                 type="number"
                                 name="existingLoans"
@@ -987,14 +1003,29 @@ export default function NewAssessment() {
                                 min="0"
                                 max="10"
                                 required
+                                className="w-full p-2 border rounded-lg"
+                                style={{ borderColor: '#E5E5E5', color: '#2C2C2C' }}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1.5" style={{ color: '#2C2C2C' }}>Monthly Income</label>
+                            <input
+                                type="number"
+                                name="monthlyIncome"
+                                value={formData.monthlyIncome}
+                                onChange={handleChange}
+                                placeholder="USD"
+                                min="0"
+                                className="w-full p-2 border rounded-lg"
+                                style={{ borderColor: '#E5E5E5', color: '#2C2C2C' }}
                             />
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">
+                        <label className="block text-sm font-medium mb-2" style={{ color: '#2C2C2C' }}>
                             Repayment History
-                            <span className="ml-2 text-teal-400 font-semibold">{formData.repaymentHistory}%</span>
+                            <span className="ml-2 font-semibold" style={{ color: '#2D5F3F' }}>{formData.repaymentHistory}%</span>
                         </label>
                         <input
                             type="range"
@@ -1003,12 +1034,9 @@ export default function NewAssessment() {
                             onChange={handleChange}
                             min="0"
                             max="100"
-                            className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-teal-500"
+                            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                            style={{ backgroundColor: '#E5E5E5', accentColor: '#2D5F3F' }}
                         />
-                        <div className="flex justify-between text-xs text-slate-500 mt-1">
-                            <span>Poor</span>
-                            <span>Excellent</span>
-                        </div>
                     </div>
                 </section>
 
@@ -1016,10 +1044,8 @@ export default function NewAssessment() {
                 <button
                     type="submit"
                     disabled={loading || !formData.latitude || !formData.loanPurpose}
-                    className="w-full py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400
-                           text-white font-bold text-lg rounded-2xl shadow-lg shadow-teal-500/30
-                           transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed
-                           active:scale-[0.98] flex items-center justify-center gap-2"
+                    className="w-full py-4 text-white font-bold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    style={{ backgroundColor: '#2D5F3F' }}
                 >
                     {loading ? (
                         <>
@@ -1028,8 +1054,8 @@ export default function NewAssessment() {
                         </>
                     ) : (
                         <>
-                            <FileCheck className="w-6 h-6" />
-                            Assess Risk
+                            <Check className="w-6 h-6" />
+                            Confirm & Assess Risk
                         </>
                     )}
                 </button>
@@ -1038,16 +1064,11 @@ export default function NewAssessment() {
     )
 
     return (
-        <div className="min-h-screen pb-24">
+        <div className="min-h-screen pb-24" style={{ backgroundColor: '#F5F3ED' }}>
             {/* Progress Bar - shown for all steps except mode-select */}
             {step !== 'mode-select' && (
                 <ProgressBar
-                    currentStep={
-                        step === 'location-detect' ? 'location' :
-                            step === 'loading' ? 'data-entry' :
-                                (step === 'manual-form' || step === 'recording' || step === 'review') ? 'data-entry' :
-                                    'assessment'
-                    }
+                    currentStep={step}
                 />
             )}
 
@@ -1055,13 +1076,19 @@ export default function NewAssessment() {
             {(step === 'mode-select' || step === 'manual-form' || step === 'recording' || step === 'review') && renderHeader()}
 
             {step === 'mode-select' && renderModeSelection()}
+            {/* For LocationDetection, we render it directly. It has its own internal styling but we can wrap it if needed. 
+                Actually LocationDetection has its own full page layout, so we might want to check if it clashes.
+                Looking at LocationDetection.jsx, it has "min-h-screen pt-24 pb-12 px-4" and background color.
+                So if we render it here inside a div that also has min-h-screen, it might be fine or double scroll.
+                However, NewAssessment is the main page controller.
+            */}
             {step === 'location-detect' && <LocationDetection onLocationConfirmed={handleLocationConfirmed} />}
+
             {step === 'loading' && <LoadingAnimation onComplete={handleLoadingComplete} minimumDuration={6000} />}
+
             {step === 'manual-form' && renderManualForm()}
             {step === 'recording' && renderRecording()}
             {step === 'review' && renderReview()}
-
-            <div className="h-8"></div>
         </div>
     )
 }

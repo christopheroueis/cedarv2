@@ -22,7 +22,7 @@ export default function Welcome() {
                 {/* Hero Text */}
                 <div className="text-center max-w-3xl mx-auto mb-12 space-y-6">
                     <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 animate-fadeInUp">
-                        ClimateCredit
+                        Cedar
                     </h1>
                     <p className="text-xl md:text-2xl text-white/90 font-light animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
                         Climate-Smart Lending Platform

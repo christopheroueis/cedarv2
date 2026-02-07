@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { MapPin, Search, Loader2, CheckCircle, AlertCircle, Navigation } from 'lucide-react'
 import { detectGPS, reverseGeocode, searchAddress } from '../services/locationService'
+import LogoAnimation from './LogoAnimation'
 
 export default function LocationDetection({ onLocationConfirmed }) {
     const [mode, setMode] = useState(null) // 'gps' | 'manual' | null
@@ -72,14 +73,17 @@ export default function LocationDetection({ onLocationConfirmed }) {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 flex items-center justify-center p-4 pt-24">
-            <div className="w-full max-w-4xl">
+        <div className="min-h-screen pt-24 pb-12 px-4" style={{ backgroundColor: '#F5F3ED' }}>
+            <div className="w-full max-w-4xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl font-bold text-white mb-4">
-                        📍 Where is the loan applicant located?
+                    <div className="flex justify-center mb-6">
+                        <LogoAnimation size="small" animation="float" />
+                    </div>
+                    <h1 className="text-3xl font-bold mb-4" style={{ color: '#2C2C2C' }}>
+                        Where is the loan applicant located?
                     </h1>
-                    <p className="text-slate-300 text-lg">
+                    <p className="text-lg" style={{ color: '#666666' }}>
                         Choose how you'd like to provide the location
                     </p>
                 </div>
@@ -87,19 +91,21 @@ export default function LocationDetection({ onLocationConfirmed }) {
                 {!location ? (
                     <div className="grid md:grid-cols-2 gap-6">
                         {/* GPS Detection Option */}
-                        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                        <div className="bg-white rounded-2xl p-8 border hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
+                            style={{ borderColor: '#E5E5E5' }}>
                             <div className="flex flex-col items-center text-center gap-6">
-                                <div className="w-20 h-20 bg-gradient-to-br from-violet-500 to-purple-600 rounded-full flex items-center justify-center">
+                                <div className="w-20 h-20 rounded-full flex items-center justify-center"
+                                    style={{ backgroundColor: '#F5F3ED' }}>
                                     {loading && mode === 'gps' ? (
-                                        <Loader2 className="w-10 h-10 text-white animate-spin" />
+                                        <Loader2 className="w-10 h-10 animate-spin" style={{ color: '#2D5F3F' }} />
                                     ) : (
-                                        <Navigation className="w-10 h-10 text-white animate-pulse" />
+                                        <Navigation className="w-10 h-10" style={{ color: '#2D5F3F' }} />
                                     )}
                                 </div>
 
                                 <div>
-                                    <h3 className="text-2xl font-bold text-white mb-2">Use GPS</h3>
-                                    <p className="text-slate-300">
+                                    <h3 className="text-xl font-bold mb-2" style={{ color: '#2C2C2C' }}>Use GPS</h3>
+                                    <p style={{ color: '#666666' }}>
                                         Automatically detect current location
                                     </p>
                                 </div>
@@ -107,13 +113,14 @@ export default function LocationDetection({ onLocationConfirmed }) {
                                 <button
                                     onClick={handleGPSDetect}
                                     disabled={loading}
-                                    className="w-full bg-gradient-to-r from-violet-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-violet-400 hover:to-purple-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-violet-500/50"
+                                    className="w-full text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+                                    style={{ backgroundColor: '#2D5F3F' }}
                                 >
                                     {loading && mode === 'gps' ? 'Detecting...' : 'Detect Location'}
                                 </button>
 
                                 {error && mode === 'gps' && (
-                                    <div className="flex items-center gap-2 text-red-400 text-sm">
+                                    <div className="flex items-center gap-2 text-sm" style={{ color: '#E53935' }}>
                                         <AlertCircle className="w-4 h-4" />
                                         <span>{error}</span>
                                     </div>
@@ -122,16 +129,18 @@ export default function LocationDetection({ onLocationConfirmed }) {
                         </div>
 
                         {/* Manual Search Option */}
-                        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                        <div className="bg-white rounded-2xl p-8 border hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
+                            style={{ borderColor: '#E5E5E5' }}>
                             <div className="flex flex-col gap-6">
                                 <div className="flex flex-col items-center text-center gap-6">
-                                    <div className="w-20 h-20 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-full flex items-center justify-center">
-                                        <Search className="w-10 h-10 text-white" />
+                                    <div className="w-20 h-20 rounded-full flex items-center justify-center"
+                                        style={{ backgroundColor: '#F5F3ED' }}>
+                                        <Search className="w-10 h-10" style={{ color: '#2D5F3F' }} />
                                     </div>
 
                                     <div>
-                                        <h3 className="text-2xl font-bold text-white mb-2">Enter Address</h3>
-                                        <p className="text-slate-300">
+                                        <h3 className="text-xl font-bold mb-2" style={{ color: '#2C2C2C' }}>Enter Address</h3>
+                                        <p style={{ color: '#666666' }}>
                                             Search for village, city, or district
                                         </p>
                                     </div>
@@ -144,26 +153,34 @@ export default function LocationDetection({ onLocationConfirmed }) {
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                         placeholder="Type to search..."
-                                        className="w-full bg-white/10 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                        className="w-full border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 transition-all"
+                                        style={{
+                                            backgroundColor: '#FAFAFA',
+                                            borderColor: '#E5E5E5',
+                                            color: '#2C2C2C',
+                                            '--tw-ring-color': '#2D5F3F'
+                                        }}
                                     />
                                     {searchLoading && (
-                                        <Loader2 className="absolute right-3 top-3 w-5 h-5 text-slate-400 animate-spin" />
+                                        <Loader2 className="absolute right-3 top-3 w-5 h-5 animate-spin" style={{ color: '#999999' }} />
                                     )}
                                 </div>
 
                                 {/* Suggestions Dropdown */}
                                 {suggestions.length > 0 && (
-                                    <div className="bg-white/10 border border-white/20 rounded-xl overflow-hidden max-h-64 overflow-y-auto">
+                                    <div className="bg-white border rounded-xl overflow-hidden max-h-64 overflow-y-auto shadow-lg"
+                                        style={{ borderColor: '#E5E5E5' }}>
                                         {suggestions.map((suggestion) => (
                                             <button
                                                 key={suggestion.id}
                                                 onClick={() => handleSelectAddress(suggestion)}
-                                                className="w-full text-left px-4 py-3 hover:bg-white/10 transition-colors border-b border-white/10 last:border-b-0"
+                                                className="w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors border-b last:border-b-0"
+                                                style={{ borderColor: '#F5F3ED' }}
                                             >
                                                 <div className="flex items-start gap-3">
-                                                    <MapPin className="w-5 h-5 text-teal-400 flex-shrink-0 mt-0.5" />
+                                                    <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: '#2D5F3F' }} />
                                                     <div>
-                                                        <p className="text-white font-medium text-sm">
+                                                        <p className="font-medium text-sm" style={{ color: '#2C2C2C' }}>
                                                             {suggestion.formatted}
                                                         </p>
                                                     </div>
@@ -177,29 +194,31 @@ export default function LocationDetection({ onLocationConfirmed }) {
                     </div>
                 ) : (
                     /* Location Confirmation Card */
-                    <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 max-w-2xl mx-auto">
+                    <div className="bg-white rounded-2xl p-8 max-w-2xl mx-auto shadow-xl border"
+                        style={{ borderColor: '#E5E5E5' }}>
                         <div className="flex items-center gap-4 mb-6">
-                            <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
+                            <div className="w-16 h-16 rounded-full flex items-center justify-center"
+                                style={{ backgroundColor: '#2D5F3F' }}>
                                 <CheckCircle className="w-8 h-8 text-white" />
                             </div>
                             <div>
-                                <h3 className="text-2xl font-bold text-white">Location Selected</h3>
-                                <p className="text-slate-300">Please confirm this is correct</p>
+                                <h3 className="text-2xl font-bold" style={{ color: '#2C2C2C' }}>Location Selected</h3>
+                                <p style={{ color: '#666666' }}>Please confirm this is correct</p>
                             </div>
                         </div>
 
-                        <div className="bg-white/5 rounded-xl p-6 mb-6">
+                        <div className="rounded-xl p-6 mb-6" style={{ backgroundColor: '#F5F3ED' }}>
                             <div className="flex items-start gap-3 mb-4">
-                                <MapPin className="w-6 h-6 text-teal-400 flex-shrink-0" />
+                                <MapPin className="w-6 h-6 flex-shrink-0" style={{ color: '#2D5F3F' }} />
                                 <div>
-                                    <p className="text-white font-medium text-lg mb-2">
+                                    <p className="font-medium text-lg mb-2" style={{ color: '#2C2C2C' }}>
                                         {location.formatted}
                                     </p>
-                                    <p className="text-slate-400 text-sm">
+                                    <p className="text-sm" style={{ color: '#666666' }}>
                                         Coordinates: {location.lat.toFixed(6)}, {location.lng.toFixed(6)}
                                     </p>
                                     {location.accuracy && (
-                                        <p className="text-slate-400 text-sm">
+                                        <p className="text-sm" style={{ color: '#666666' }}>
                                             Accuracy: ±{Math.round(location.accuracy)}m
                                         </p>
                                     )}
@@ -215,13 +234,15 @@ export default function LocationDetection({ onLocationConfirmed }) {
                                     setSearchQuery('')
                                     setError(null)
                                 }}
-                                className="flex-1 bg-white/10 border border-white/20 text-white px-6 py-3 rounded-xl font-semibold hover:bg-white/20 transition-all duration-300"
+                                className="flex-1 border px-6 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300"
+                                style={{ borderColor: '#E5E5E5', color: '#666666' }}
                             >
                                 Change Location
                             </button>
                             <button
                                 onClick={handleConfirm}
-                                className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-400 hover:to-emerald-500 transition-all duration-300 shadow-lg hover:shadow-green-500/50"
+                                className="flex-1 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+                                style={{ backgroundColor: '#2D5F3F' }}
                             >
                                 Confirm & Continue
                             </button>

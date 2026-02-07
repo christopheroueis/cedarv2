@@ -179,7 +179,7 @@ export default function Login() {
 
                     {/* Footer */}
                     <p className="text-center mt-6 text-sm text-white/80">
-                        © 2026 ClimateCredit • Climate-Smart Lending Platform
+                        © 2026 Cedar • Climate-Smart Lending Platform
                     </p>
                 </div>
             </div>

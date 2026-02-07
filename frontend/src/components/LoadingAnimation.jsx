@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from 'react'
-import { TrendingUp, Cloud, AlertTriangle, Users, CheckCircle2, Loader2 } from 'lucide-react'
+import { TrendingUp, Cloud, AlertTriangle, Users, CheckCircle2 } from 'lucide-react'
+import LogoAnimation from './LogoAnimation'
 
 const metrics = [
     {
         icon: TrendingUp,
         text: 'Analyzing economic indicators...',
-        color: 'from-blue-500 to-cyan-500',
+        color: '#2D5F3F', // Forest Green
         duration: 2000
     },
     {
         icon: Cloud,
         text: 'Fetching climate patterns...',
-        color: 'from-green-500 to-emerald-500',
+        color: '#4CAF50', // Green
         duration: 2000
     },
     {
         icon: AlertTriangle,
         text: 'Assessing conflict risk...',
-        color: 'from-orange-500 to-red-500',
+        color: '#F59E0B', // Amber
         duration: 2000
     },
     {
         icon: Users,
         text: 'Loading social metrics...',
-        color: 'from-purple-500 to-pink-500',
+        color: '#795548', // Brown
         duration: 1500
     }
 ]
@@ -73,68 +74,56 @@ export default function LoadingAnimation({ onComplete, minimumDuration = 5000 })
     const CurrentIcon = metrics[currentMetric].icon
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 flex items-center justify-center p-4 pt-24 overflow-hidden relative">
-            {/* Animated Background */}
-            <div className="absolute inset-0 overflow-hidden">
-                {/* Floating particles */}
-                {[...Array(20)].map((_, i) => (
-                    <div
-                        key={i}
-                        className="absolute w-2 h-2 bg-white/20 rounded-full animate-float"
-                        style={{
-                            left: `${Math.random() * 100}%`,
-                            top: `${Math.random() * 100}%`,
-                            animationDelay: `${Math.random() * 5}s`,
-                            animationDuration: `${5 + Math.random() * 5}s`
-                        }}
-                    />
-                ))}
-
-                {/* Gradient orbs */}
-                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-500/30 rounded-full filter blur-3xl animate-pulse" />
-                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/30 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-            </div>
+        <div className="min-h-screen flex items-center justify-center p-4 pt-24 overflow-hidden relative"
+            style={{ backgroundColor: '#F5F3ED' }}>
 
             <div className="relative z-10 w-full max-w-2xl">
                 {/* Main Content */}
-                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-12 shadow-2xl">
+                <div className="bg-white rounded-3xl p-12 shadow-xl border"
+                    style={{ borderColor: '#E5E5E5' }}>
                     {/* Icon Area */}
                     <div className="flex justify-center mb-8">
-                        <div className={`w-24 h-24 bg-gradient-to-br ${metrics[currentMetric].color} rounded-full flex items-center justify-center shadow-xl transition-all duration-500`}>
-                            {isComplete ? (
-                                <CheckCircle2 className="w-12 h-12 text-white animate-scale-in" />
-                            ) : (
-                                <CurrentIcon className="w-12 h-12 text-white animate-pulse" />
-                            )}
+                        <div className="relative">
+                            <LogoAnimation size="medium" animation={isComplete ? 'grow' : 'pulse'} />
+                            <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1 shadow-md">
+                                {isComplete ? (
+                                    <CheckCircle2 className="w-6 h-6 text-green-600 animate-scale-in" />
+                                ) : (
+                                    <CurrentIcon className="w-6 h-6 animate-pulse" style={{ color: metrics[currentMetric].color }} />
+                                )}
+                            </div>
                         </div>
                     </div>
 
                     {/* Text */}
                     <div className="text-center mb-8">
-                        <h2 className="text-3xl font-bold text-white mb-4 transition-all duration-500">
+                        <h2 className="text-3xl font-bold mb-4 transition-all duration-500" style={{ color: '#2C2C2C' }}>
                             {isComplete ? 'Data Ready!' : metrics[currentMetric].text}
                         </h2>
-                        <p className="text-slate-300">
+                        <p style={{ color: '#666666' }}>
                             {isComplete ? 'Preparing your assessment...' : 'Please wait while we gather information'}
                         </p>
                     </div>
 
                     {/* Progress Bar */}
                     <div className="mb-8">
-                        <div className="h-3 bg-white/10 rounded-full overflow-hidden">
+                        <div className="h-3 rounded-full overflow-hidden" style={{ backgroundColor: '#E5E5E5' }}>
                             <div
-                                className={`h-full bg-gradient-to-r ${metrics[currentMetric].color} transition-all duration-300 ease-out relative`}
-                                style={{ width: `${progress}%` }}
+                                className="h-full transition-all duration-300 ease-out relative"
+                                style={{
+                                    width: `${progress}%`,
+                                    backgroundColor: metrics[currentMetric].color
+                                }}
                             >
                                 {/* Glow effect */}
                                 <div className="absolute inset-0 bg-white/30 animate-shimmer" />
                             </div>
                         </div>
                         <div className="flex justify-between mt-2">
-                            <span className="text-slate-400 text-sm">
+                            <span className="text-sm" style={{ color: '#666666' }}>
                                 {Math.round(progress)}%
                             </span>
-                            <span className="text-slate-400 text-sm">
+                            <span className="text-sm" style={{ color: '#666666' }}>
                                 {isComplete ? 'Complete' : 'Loading...'}
                             </span>
                         </div>
@@ -152,24 +141,26 @@ export default function LoadingAnimation({ onComplete, minimumDuration = 5000 })
                                     key={index}
                                     className={`
                                         flex flex-col items-center gap-2 p-3 rounded-xl transition-all duration-300
-                                        ${isActive && 'bg-white/10 ring-2 ring-white/30'}
-                                        ${isCompleted && !isActive && 'opacity-50'}
+                                        ${isActive ? 'bg-gray-50 ring-1 ring-gray-200' : ''}
+                                        ${isCompleted && !isActive ? 'opacity-50' : ''}
                                     `}
                                 >
                                     {isCompleted && !isActive ? (
-                                        <CheckCircle2 className="w-6 h-6 text-green-400" />
+                                        <CheckCircle2 className="w-6 h-6 text-green-600" />
                                     ) : (
                                         <Icon
-                                            className={`
-                                                w-6 h-6 transition-all duration-300
-                                                ${isActive ? 'text-white animate-pulse' : 'text-slate-400'}
-                                            `}
+                                            className="w-6 h-6 transition-all duration-300"
+                                            style={{
+                                                color: isActive ? metric.color : '#999999',
+                                                transform: isActive ? 'scale(1.1)' : 'scale(1)'
+                                            }}
                                         />
                                     )}
-                                    <span className={`
-                                        text-xs text-center transition-colors duration-300
-                                        ${isActive ? 'text-white font-semibold' : 'text-slate-400'}
-                                    `}>
+                                    <span className="text-xs text-center transition-colors duration-300"
+                                        style={{
+                                            color: isActive ? '#2C2C2C' : '#999999',
+                                            fontWeight: isActive ? 600 : 400
+                                        }}>
                                         {metric.text.split(' ')[0]}
                                     </span>
                                 </div>
@@ -177,20 +168,9 @@ export default function LoadingAnimation({ onComplete, minimumDuration = 5000 })
                         })}
                     </div>
                 </div>
-
-                {/* Loading spinner */}
-                {!isComplete && (
-                    <div className="flex justify-center mt-6">
-                        <Loader2 className="w-8 h-8 text-white/50 animate-spin" />
-                    </div>
-                )}
             </div>
 
             <style>{`
-                @keyframes float {
-                    0%, 100% { transform: translateY(0px); }
-                    50% { transform: translateY(-20px); }
-                }
                 @keyframes shimmer {
                     0% { transform: translateX(-100%); }
                     100% { transform: translateX(100%); }
@@ -199,9 +179,6 @@ export default function LoadingAnimation({ onComplete, minimumDuration = 5000 })
                     0% { transform: scale(0); }
                     50% { transform: scale(1.2); }
                     100% { transform: scale(1); }
-                }
-                .animate-float {
-                    animation: float linear infinite;
                 }
                 .animate-shimmer {
                     animation: shimmer 2s infinite;
