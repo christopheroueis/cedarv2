@@ -109,7 +109,7 @@ function ProbabilityCard({ baseline, adjusted }) {
 }
 
 // RecommendationCard
-function RecommendationCard({ type, title, description, details, onAccept }) {
+function RecommendationCard({ type, title, description, details }) {
     const configs = {
         approve: {
             icon: CheckCircle,
@@ -352,7 +352,37 @@ export default function RiskResults() {
         )
     }
 
-    // ... config definitions ...
+    const recommendationConfigs = {
+        approve: {
+            title: 'Approve with Climate Modifications',
+            description: 'Acceptable risk level with recommended climate-smart modifications.',
+            details: [
+                'Standard loan terms with flexible repayment option',
+                'Optional weather-indexed insurance',
+                'Annual climate risk review'
+            ]
+        },
+        caution: {
+            title: 'Approve with Enhanced Monitoring',
+            description: 'Moderate climate risk. Enhanced oversight recommended.',
+            details: [
+                'Mandatory weather-indexed insurance',
+                'Quarterly loan review during high-risk season',
+                'Consider 20% reduced initial loan amount',
+                'Climate resilience training required'
+            ]
+        },
+        defer: {
+            title: 'Defer - High Climate Risk',
+            description: 'Significant climate exposure. Additional review required.',
+            details: [
+                'Request senior officer review',
+                'Explore alternative loan structure',
+                'Consider government subsidy programs',
+                'Require comprehensive risk mitigation plan'
+            ]
+        }
+    }
 
     const recConfig = recommendationConfigs[assessment.recommendationType] || recommendationConfigs.caution
 

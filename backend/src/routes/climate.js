@@ -1,6 +1,7 @@
 import express from 'express'
 import { optionalAuth } from '../middleware/auth.js'
 import climateService from '../services/climateService.js'
+import { demoData } from '../config/database.js'
 
 const router = express.Router()
 
@@ -83,8 +84,6 @@ router.post('/risk-score', optionalAuth, async (req, res) => {
 
 // GET /api/climate-data/regions - Get pre-loaded climate zones
 router.get('/regions/all', (req, res) => {
-    const { demoData } = require('../config/database.js')
-
     const regions = demoData.climateZones.map(zone => ({
         id: zone.id,
         name: zone.region_name,

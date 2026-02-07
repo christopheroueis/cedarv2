@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import LogoAnimation from '../components/LogoAnimation'
-import { Plus, FileCheck, Menu, LogOut, User, HistoryIcon } from 'lucide-react'
+import { Plus, FileCheck, Menu, LogOut, User, History as HistoryIcon } from 'lucide-react'
 
 export default function Dashboard() {
     const { user, mfi, logout } = useAuth()

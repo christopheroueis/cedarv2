@@ -14,7 +14,7 @@ const __dirname = dirname(__filename)
 // Load conflict data from JSON file
 let CONFLICT_DATA = {}
 try {
-    const dataPath = join(__dirname, '../data/conflictData.json')
+    const dataPath = join(__dirname, '../../data/conflictData.json')
     CONFLICT_DATA = JSON.parse(readFileSync(dataPath, 'utf8'))
     console.log(`✓ Loaded conflict data for ${Object.keys(CONFLICT_DATA).length} countries`)
 } catch (error) {
